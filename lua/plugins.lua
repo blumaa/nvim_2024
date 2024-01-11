@@ -40,21 +40,6 @@ return {
         end,
     },
 
-    'nvim-lua/plenary.nvim',
-
-    {
-        'nvim-telescope/telescope.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        keys = {
-            {
-                '<leader>ff', ':Telescope find_files<cr>'
-            },
-            {
-                '<leader>fg', ':Telescope live_grep<cr>'
-            }
-        },
-
-    },
 
     {
         "nvim-tree/nvim-web-devicons", lazy = true
