@@ -8,7 +8,7 @@ return {
       "MunifTanjim/nui.nvim",
       -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     }
-},
+  },
 
   "mbbill/undotree",
 
@@ -41,17 +41,26 @@ return {
 
   'JoosepAlviste/nvim-ts-context-commentstring',
 
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require("catppuccin").setup({})
+  --     vim.cmd.colorscheme "catppuccin-mocha"
+  --   end,
+  -- },
+
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
+    opts = {},
     config = function()
-      require("catppuccin").setup({})
-      vim.cmd.colorscheme "catppuccin-mocha"
-    end,
+      vim.cmd.colorscheme "tokyonight-moon"
+    end
   },
-
 
   {
     "nvim-tree/nvim-web-devicons", lazy = true
