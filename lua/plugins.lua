@@ -1,48 +1,60 @@
 return {
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+      -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+    }
+},
 
-    {
-        "folke/which-key.nvim",
-        event = "VeryLazy",
-        init = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 300
-        end,
-        opts = {
-            -- your configuration comes here
-            -- or leave it empty to use the default settings
-            -- refer to the configuration section below
-        }
-    },
+  "mbbill/undotree",
 
-    'MunifTanjim/prettier.nvim',
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    }
+  },
 
-    'jose-elias-alvarez/null-ls.nvim',
+  'MunifTanjim/prettier.nvim',
 
-    {
-        'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup({
-                pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-            })
-        end
-    },
+  'jose-elias-alvarez/null-ls.nvim',
 
-    'JoosepAlviste/nvim-ts-context-commentstring',
+  {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup({
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
+    end
+  },
 
-    {
-        "catppuccin/nvim",
-        name = "catppuccin",
-        lazy = false,
-        priority = 1000,
-        config = function()
-            require("catppuccin").setup({})
-            vim.cmd.colorscheme "catppuccin-mocha"
-        end,
-    },
+  'JoosepAlviste/nvim-ts-context-commentstring',
+
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({})
+      vim.cmd.colorscheme "catppuccin-mocha"
+    end,
+  },
 
 
-    {
-        "nvim-tree/nvim-web-devicons", lazy = true
-    },
+  {
+    "nvim-tree/nvim-web-devicons", lazy = true
+  },
 
 }
