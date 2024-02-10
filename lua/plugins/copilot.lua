@@ -3,6 +3,8 @@ return {
   enabled = true,
   cmd = "Copilot",
   event = "InsertEnter",
+  priority = 1000,
+  lazy = true,
   opts = {
     suggestion = { enabled = true },
     panel = { enabled = true },

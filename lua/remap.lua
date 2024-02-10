@@ -21,7 +21,7 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- greatest remap ever
-vim.keymap.set("x", "<leader>p", [["_dP]])
+-- vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
@@ -33,7 +33,7 @@ vim.keymap.set("n", "Q", "<nop>")
 
 -- formatting
 vim.keymap.set("n", "<leader>=", vim.lsp.buf.format)
-vim.keymap.set("n", "<leader>pp", ":Prettier<CR>")
+vim.keymap.set("n", "<leader>pr", ":Prettier<CR>")
 
 -- vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 -- vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
