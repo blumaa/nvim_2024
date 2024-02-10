@@ -1,10 +1,11 @@
+vim.keymap.set('n', '<Esc>', ':nohlsearch<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Leader>d', ':call v:lua.toggle_diagnostics()<CR>')
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 vim.keymap.set("n", "<leader>-", ":vsplit<cr>")
 vim.keymap.set("n", "<leader>_", ":split<cr>")
 
 -- vim-test shortcuts
-vim.api.nvim_set_keymap('n', '<leader>T', ':TestFile -strategy=neovim<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<leader>T', ':TestFile -strategy=neovim<CR>', { noremap = true, silent = true })
 
 vim.keymap.set("i", "jk", "<ESC>")
 -- jump to test and back
