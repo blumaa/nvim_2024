@@ -15,6 +15,7 @@ return {
     },
     config = function()
       local builtin = require('telescope.builtin')
+      local trouble = require("trouble.providers.telescope")
 
       vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
       vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
@@ -81,7 +82,11 @@ return {
           -- Developer configurations: Not meant for general override
           buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
           mappings = {
-            n = { ["q"] = require("telescope.actions").close },
+            i = { ["<c-t>"] = trouble.open_with_trouble },
+            n = {
+              ["<c-t>"] = trouble.open_with_trouble,
+              ["q"] = require("telescope.actions").close
+            },
           },
         },
         pickers = {

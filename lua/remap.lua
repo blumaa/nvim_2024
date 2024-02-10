@@ -66,4 +66,5 @@ vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
 -- Nvimtree
-vim.keymap.set("n", "<leader>e", ":Neotree<cr>")
+vim.keymap.set("n", "<leader>nt", ":NvimTreeToggle<cr>")
+vim.keymap.set("n", "<leader>nf", ":NvimTreeFindFileToggle<cr>")
