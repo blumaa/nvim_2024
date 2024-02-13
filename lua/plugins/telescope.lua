@@ -32,6 +32,7 @@ return {
         --     results_width = 0.5,
         --   },
         -- },
+        file_ignore_patterns = { "node_modules" },
         path_display = { "truncate" },
         mappings = {
           i = { ["<c-t>"] = trouble.open_with_trouble },
