@@ -28,7 +28,7 @@ return {
 
   'MunifTanjim/prettier.nvim',
 
-  -- 'jose-elias-alvarez/null-ls.nvim',
+  'jose-elias-alvarez/null-ls.nvim',
 
   {
     'numToStr/Comment.nvim',
