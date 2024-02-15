@@ -1,5 +1,7 @@
 return {
 
+  "vimpostor/vim-tpipeline",
+
   {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },

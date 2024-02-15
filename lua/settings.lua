@@ -3,7 +3,7 @@ local set = vim.opt
 set.number = true
 set.backspace = '2'
 set.showcmd = true
-set.laststatus = 2
+set.laststatus = 0
 set.autowrite = true
 set.autoread = true
 set.cursorline = true
@@ -38,7 +38,6 @@ function _G.toggle_diagnostics()
     vim.diagnostic.config({ virtual_text = true })
   end
 end
-
 
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
