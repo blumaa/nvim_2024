@@ -22,6 +22,7 @@ return {
       builtin.grep_string({ search = word }
       );
     end)
+    require("telescope").load_extension('harpoon')
     require('telescope').setup {
       defaults = {
         -- sorting_strategy = "ascending",
