@@ -22,6 +22,8 @@ return {
       builtin.grep_string({ search = word }
       );
     end)
+    local actions = require('telescope.actions')
+
     require("telescope").load_extension('harpoon')
     require('telescope').setup {
       defaults = {
@@ -36,7 +38,10 @@ return {
         file_ignore_patterns = { "node_modules" },
         path_display = { "truncate" },
         mappings = {
-          i = { ["<c-t>"] = trouble.open_with_trouble },
+          i = {
+            ["<c-t>"] = trouble.open_with_trouble,
+            ["<esc>"] = actions.close,
+          },
           n = {
             ["<c-t>"] = trouble.open_with_trouble,
             ["q"] = require("telescope.actions").close

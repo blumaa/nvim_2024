@@ -1,6 +1,14 @@
 return {
 
-  "vimpostor/vim-tpipeline",
+  {
+    "crnvl96/lazydocker.nvim",
+    event = "VeryLazy",
+    opts = {}, -- automatically calls `require("lazydocker").setup()`
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    }
+  },
+  -- "vimpostor/vim-tpipeline",
 
   {
     "iamcco/markdown-preview.nvim",
