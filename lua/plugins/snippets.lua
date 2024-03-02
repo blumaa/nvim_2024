@@ -2,6 +2,7 @@ return {
   {
     "L3MON4D3/LuaSnip",
     build = "make install_jsregexp",
+    version = "v2.*",
     dependencies = {
       "rafamadriz/friendly-snippets",
       "benfowler/telescope-luasnip.nvim",
@@ -12,7 +13,6 @@ return {
         function(type) require("luasnip.loaders.from_" .. type).lazy_load() end,
         { "vscode", "snipmate", "lua" }
       )
-      require('luasnip.loaders.from_vscode').lazy_load()
       require("luasnip").filetype_extend("typescript", { "tsdoc" })
       require("luasnip").filetype_extend("javascript", { "jsdoc" })
       require("luasnip").filetype_extend("lua", { "luadoc" })

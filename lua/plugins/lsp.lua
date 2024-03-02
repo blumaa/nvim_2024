@@ -58,7 +58,7 @@ return {
         snippet = {
           -- REQUIRED - you must specify a snippet engine
           expand = function(args)
-            require('luasnip').lsp_expand(args.body)           -- For `luasnip` users.
+            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
             require('friendly-snippets').lsp_expand(args.body)
           end,
         },
@@ -69,15 +69,25 @@ return {
           ['<C-Space>'] = cmp.mapping.complete(),
         }),
         sources = cmp.config.sources({
-          { name = 'friendly-snippets', priority = 50 },
-          { name = 'luasnip',           priority = 40 },
-          { name = 'nvim_lsp',          priority = 30 },
-          { name = 'buffer',            priority = 20 },
-          { name = 'path',              priority = 10 },
+          -- { name = 'friendly-snippets', priority = 50, max_item_count = 5 },
+          { name = 'luasnip',           priority = 40, max_item_count = 5 },
+          { name = 'nvim_lsp',          priority = 30, max_item_count = 5 },
+          { name = 'buffer',            priority = 20, max_item_count = 5 },
+          { name = 'path',              priority = 10, max_item_count = 5 },
 
         }, {
           -- { name = 'buffer' },
-        })
+        }),
+        window = {
+          completion = {
+            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+            col_offset = -3,
+            side_padding = 0,
+          },
+        },
+        formatting = {
+          fields = { "kind", "abbr", "menu" },
+        }
       })
 
       -- Diagnostic keymaps
