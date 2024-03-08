@@ -32,7 +32,7 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 vim.keymap.set("n", "Q", "<nop>")
 
 -- formatting
-vim.keymap.set("n", "<leader>=", vim.lsp.buf.format)
+-- vim.keymap.set("n", "<leader>=", vim.lsp.buf.format)
 vim.keymap.set("n", "<leader>pr", ":Prettier<CR>")
 
 -- vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")

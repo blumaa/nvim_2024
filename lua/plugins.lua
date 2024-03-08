@@ -1,10 +1,19 @@
 return {
   {
-    "norcalli/nvim-colorizer.lua",
+    'blumaa/octopus.nvim',
     config = function()
-      require("colorizer").setup()
+      vim.keymap.set('n', '<leader>on', function() require("octopus").spawn() end, {})
+      vim.keymap.set('n', '<leader>off', function() require("octopus").remove_last_octopus() end, {})
+      vim.keymap.set('n', '<leader>ofa', function() require("octopus").remove_all_octopuses() end, {})
     end
   },
+
+  -- {
+  --   "norcalli/nvim-colorizer.lua",
+  --   config = function()
+  --     require("colorizer").setup()
+  --   end
+  -- },
 
   {
     "NeogitOrg/neogit",
@@ -60,22 +69,46 @@ return {
   --   }
   -- },
 
-  'MunifTanjim/prettier.nvim',
+  {
+    'MunifTanjim/prettier.nvim',
+    config = function()
+      local prettier = require("prettier")
+      prettier.setup({
+        bin = 'prettier', -- or `'prettierd'` (v0.23.3+)
+        filetypes = {
+          "css",
+          "html",
+          "javascript",
+          "javascriptreact",
+          "json",
+          "less",
+          "markdown",
+          "scss",
+          "typescript",
+          "typescriptreact",
+          "yaml",
+        },
+        cli_options = {
+          quotes = false,
+        },
+      })
+    end
+  },
 
-  -- {
-  --   'jose-elias-alvarez/null-ls.nvim',
-  --   config = function()
-  --     local null_ls = require("null-ls")
-  --
-  --     null_ls.setup({
-  --       sources = {
-  --         null_ls.builtins.formatting.stylua,
-  --         null_ls.builtins.diagnostics.eslint,
-  --         -- null_ls.builtins.completion.spell,
-  --       },
-  --     })
-  --   end
-  -- },
+  {
+    'jose-elias-alvarez/null-ls.nvim',
+    config = function()
+      local null_ls = require("null-ls")
+
+      null_ls.setup({
+        sources = {
+          -- null_ls.builtins.formatting.stylua,
+          null_ls.builtins.diagnostics.eslint,
+          null_ls.builtins.completion.spell,
+        },
+      })
+    end
+  },
 
   {
     'numToStr/Comment.nvim',

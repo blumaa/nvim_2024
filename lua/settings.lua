@@ -1,5 +1,16 @@
-local set = vim.opt
+-- Define a function to append a newline to the end of the file
+function AppendNewline()
+  local line_count = vim.fn.line('$')
+  if line_count == 1 or vim.fn.getline(line_count) ~= '' then
+    vim.api.nvim_buf_set_lines(0, -1, -1, false, {''})
+  end
+end
 
+-- Automatically call the function when saving the buffer
+vim.cmd([[autocmd BufWritePre * lua AppendNewline()]])
+
+vim.g.termguicolors = true
+local set = vim.opt
 
 set.number = true
 set.backspace = '2'
