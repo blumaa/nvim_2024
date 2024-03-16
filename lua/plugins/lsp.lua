@@ -42,11 +42,16 @@ return {
           "javascript",
           "javascriptreact",
           "javascript.jsx",
-          "css",
-          "html",
         },
         single_file_support = true
       })
+
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+      lsp_config.cssls.setup {
+        capabilities = capabilities,
+        }
+
 
       lsp_config.tsserver.setup({
         capabilities = capabilities,
@@ -139,7 +144,7 @@ return {
       local mason_lspconfig = require("mason-lspconfig")
 
       mason_lspconfig.setup({
-        ensure_installed = { 'lua_ls', 'eslint' }
+        ensure_installed = { 'lua_ls', 'eslint', 'cssls' }
       })
     end
   },
