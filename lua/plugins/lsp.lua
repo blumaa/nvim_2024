@@ -1,141 +1,160 @@
 return {
+  { "folke/neodev.nvim", opts = {} },
+  {
+    "j-hui/fidget.nvim",
+    config = function()
+      require("fidget").setup({})
+    end
+  },
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      'neovim/nvim-lspconfig',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      'hrsh7th/nvim-cmp',
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-      'j-hui/fidget.nvim',
-    },
     config = function()
-      local cmp = require('cmp')
-      local cmp_lsp = require("cmp_nvim_lsp")
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        cmp_lsp.default_capabilities())
+      require('neodev').setup({})
 
-      require('fidget').setup({})
-      require('mason').setup()
-      require('mason-lspconfig').setup({
-        ensure_installed = {
-          "lua_ls",
-          "rust_analyzer",
-          "tsserver",
-        },
-        handlers = {
-          function(server_name)
-            -- print("setting up ", server_name)
-            require("lspconfig")[server_name].setup {
-              capabilities = capabilities
-            }
-          end,
+      local lsp_config = require('lspconfig')
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-          ["lua_ls"] = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.lua_ls.setup {
-              settings = {
-                capabilities = capabilities,
-                Lua = {
-                  diagnostics = {
-                    globals = { "vim" } }
-                } }
+      lsp_config.lua_ls.setup({
+        capabilities = capabilities,
+        on_attach = function(_, bufnr)
+          vim.api.nvim_set_keymap('n', '<leader>Hw', ':help <C-R><C-W><CR>',
+            { noremap = true, buffer = bufnr, silent = true, desc = "Help under cursor" })
+        end,
+        settings = {
+          Lua = {
+            format = {
+              enable = true,
+            },
+            completion = {
+              callSnippet = "Replace"
             }
-          end
+          }
         }
       })
 
-      local cmp_select = { behavior = cmp.SelectBehavior.Select }
-      cmp.setup({
-        snippet = {
-          -- REQUIRED - you must specify a snippet engine
-          expand = function(args)
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            require('friendly-snippets').lsp_expand(args.body)
-          end,
+      lsp_config.eslint.setup({
+        capabilities = capabilities,
+        root_dir = lsp_config.util.root_pattern("package.json", "package-lock.json"),
+        filetypes = {
+          "typescript",
+          "typescriptreact",
+          "typescript.tsx",
+          "javascript",
+          "javascriptreact",
+          "javascript.jsx",
+          "css",
+          "html",
         },
-        mapping = cmp.mapping.preset.insert({
-          ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-          ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-          ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-          ['<C-Space>'] = cmp.mapping.complete(),
-        }),
-        sources = cmp.config.sources({
-          -- { name = 'friendly-snippets', priority = 50, max_item_count = 5 },
-          { name = 'luasnip',           priority = 40, max_item_count = 5 },
-          { name = 'nvim_lsp',          priority = 30, max_item_count = 5 },
-          { name = 'buffer',            priority = 20, max_item_count = 5 },
-          { name = 'path',              priority = 10, max_item_count = 5 },
-
-        }, {
-          -- { name = 'buffer' },
-        }),
-        window = {
-          completion = {
-            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
-            col_offset = -3,
-            side_padding = 0,
-          },
-        },
-        formatting = {
-          fields = { "kind", "abbr", "menu" },
-        }
+        single_file_support = true
       })
 
-      -- Diagnostic keymaps
-      vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+      lsp_config.tsserver.setup({
+        capabilities = capabilities,
+      })
+
+      local check_eslint_config = function(client)
+        if client.name ~= "eslint" and client.name ~= "tsserver" then
+          return false
+        end
+        return true
+      end
+
+      -- Global mappings.
+      -- See `:help vim.diagnostic.*` for documentation on any of the below functions
+      vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
       -- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
       -- vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-      vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+      -- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
+      --    vim.keymap.set('n', '<leader>ws', ':Telescope lsp_dynamic_workspace_symbols <CR>',
+      --      { desc = "[W]orkspace [S]ymbols" })
+      --    vim.keymap.set('n', '<leader>ds', ':Telescope lsp_document_symbols <CR>', { desc = "[D]ocument [S]ymbols" })
+      --    vim.keymap.set('n', '<leader>od', ':lua vim.diagnostic.open_float()<CR>', { desc = "[O]pen [D]iagnostic" })
+      --    vim.keymap.set('n', '<leader>d]', ':lua vim.diagnostic.goto_next()<CR>', { desc = "Next ] [D]iagnostic" })
+      --    vim.keymap.set('n', '<leader>d[', ':lua vim.diagnostic.goto_prev()<CR>', { desc = "Prev [ [D]iagnostic" })
 
       -- Use LspAttach autocommand to only map the following keys
       -- after the language server attaches to the current buffer
-      vim.api.nvim_create_autocmd('LspAttach', {
+      local on_attach = {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
         callback = function(ev)
           -- Enable completion triggered by <c-x><c-o>
           vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
           -- Buffer local mappings.
           -- See `:help vim.lsp.*` for documentation on any of the below functions
           local opts = { buffer = ev.buf }
-          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-          -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-          vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-          vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-          vim.keymap.set('n', '<space>wl', function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end, opts)
-          vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-          vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-          vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-          vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-          vim.keymap.set('n', '<space>f', function()
-            vim.lsp.buf.format { async = true }
-          end, opts)
-        end,
-      })
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          local ts_builtin = require('telescope.builtin')
 
-      vim.diagnostic.config({
-        update_in_insert = true,
-        float = {
-          focusable = false,
-          style = "minimal",
-          border = "rounded",
-          source = "always",
-          header = "",
-          prefix = "",
+          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+          -- keymap go to definition
+          vim.keymap.set('n', 'gtd', vim.lsp.buf.definition, opts)
+
+
+          vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+          vim.keymap.set('n', 'gd', ts_builtin.lsp_definitions, opts)
+          vim.keymap.set('n', 'gr', ts_builtin.lsp_references, opts)
+          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+          vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+          vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+          vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+          print("[" .. client.name .. "] ")
+
+          -- -- vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+          -- -- vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+          -- -- vim.keymap.set('n', '<leader>wl', function()
+          -- --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+          -- -- end, opts)
+
+          -- Formatting
+
+          if check_eslint_config(client) then
+            vim.keymap.set("n", "<leader>=", ":EslintFixAll<CR>", opts)
+            -- vim.api.nvim_create_autocmd("BufWritePre", {
+            --   buffer = ev.buf,
+            --   command = ":EslintFixAll",
+            -- })
+          else
+            vim.keymap.set('n', '<leader>=', vim.lsp.buf.format, opts)
+            -- vim.api.nvim_create_autocmd("BufWritePre", {
+            --   buffer = ev.buf,
+            --   command = "lua vim.lsp.buf.format()"
+            -- })
+          end
+        end,
+      }
+      -- vim.g.rustaceanvim = {
+      --   server = {
+      --     on_attach = on_attach
+      --   }
+      -- }
+
+
+      vim.api.nvim_create_autocmd('LspAttach', on_attach)
+    end,
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    config = function()
+      local mason_lspconfig = require("mason-lspconfig")
+
+      mason_lspconfig.setup({
+        ensure_installed = { 'lua_ls', 'eslint' }
+      })
+    end
+  },
+  {
+    "williamboman/mason.nvim",
+    config = function()
+      local mason = require('mason')
+
+      mason.setup({
+        ui = {
+          icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+          }
         }
       })
     end

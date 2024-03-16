@@ -1,15 +1,28 @@
--- Define a function to append a newline to the end of the file
-function AppendNewline()
+vim.g.editorconfig = false
+-- -- Define a function to append a space to the end of the file
+function AppendSpace()
   local line_count = vim.fn.line('$')
   if line_count == 1 or vim.fn.getline(line_count) ~= '' then
-    vim.api.nvim_buf_set_lines(0, -1, -1, false, {''})
+    vim.api.nvim_buf_set_lines(0, -1, -1, false, { ' ' })
   end
 end
 
--- Automatically call the function when saving the buffer
-vim.cmd([[autocmd BufWritePre * lua AppendNewline()]])
+-- Create a keymap to call the function when pressing <leader>sp
+vim.api.nvim_set_keymap('n', '<leader>sp', ':lua AppendSpace()<CR>', { noremap = true, silent = true })
+
+-- -- Define a function to append a newline to the end of the file
+-- function AppendNewline()
+--   local line_count = vim.fn.line('$')
+--   if line_count == 1 or vim.fn.getline(line_count) ~= '' then
+--     vim.api.nvim_buf_set_lines(0, -1, -1, false, {''})
+--   end
+-- end
+--
+-- -- Automatically call the function when saving the buffer
+-- vim.cmd([[autocmd BufWritePre * lua AppendNewline()]])
 
 vim.g.termguicolors = true
+vim.g.nofixendofline = true
 local set = vim.opt
 
 set.number = true
@@ -21,7 +34,6 @@ set.autoread = true
 set.cursorline = true
 set.cursorlineopt = 'number'
 set.relativenumber = true
-set.wrap = false
 set.ignorecase = true
 set.smartcase = true
 set.termguicolors = true
@@ -36,6 +48,7 @@ set.formatoptions:remove({ 'c', 'r', 'o' })
 set.mousemoveevent = true
 set.undodir = os.getenv("HOME") .. "/.vim/undodir"
 set.undofile = true
+set.wrap = false
 
 
 -- LSP toggle diagnostics virtual_text

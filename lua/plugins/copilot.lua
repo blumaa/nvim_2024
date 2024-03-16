@@ -22,7 +22,7 @@ return {
           open = "<M-CR>"
         },
         layout = {
-          position = "bottom",   -- | top | left | right
+          position = "bottom", -- | top | left | right
           ratio = 0.4
         },
       },
@@ -50,10 +50,9 @@ return {
         cvs = false,
         ["."] = false,
       },
-      copilot_node_command = 'node',   -- Node.js version must be > 18.x
+      copilot_node_command = 'node', -- Node.js version must be > 18.x
       server_opts_overrides = {},
 
     })
   end
 }
-

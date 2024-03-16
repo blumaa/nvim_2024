@@ -1,6 +1,6 @@
 vim.keymap.set('n', '<leader>q', ':nohlsearch<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>d', ':call v:lua.toggle_diagnostics()<CR>')
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+-- vim.keymap.set('n', '<leader>d', ':call v:lua.toggle_diagnostics()<CR>')
+-- vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 vim.keymap.set("n", "<leader>-", ":vsplit<cr>")
 vim.keymap.set("n", "<leader>_", ":split<cr>")
 
@@ -30,10 +30,6 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "Q", "<nop>")
-
--- formatting
--- vim.keymap.set("n", "<leader>=", vim.lsp.buf.format)
-vim.keymap.set("n", "<leader>pr", ":Prettier<CR>")
 
 -- vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
 -- vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
