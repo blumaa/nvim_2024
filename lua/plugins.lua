@@ -1,11 +1,17 @@
 return {
   {
-    'blumaa/octopus.nvim',
+    "blumaa/octopus.nvim",
     config = function()
-      vim.keymap.set('n', '<leader>on', function() require("octopus").spawn() end, {})
-      vim.keymap.set('n', '<leader>off', function() require("octopus").remove_last_octopus() end, {})
-      vim.keymap.set('n', '<leader>ofa', function() require("octopus").remove_all_octopuses() end, {})
-    end
+      vim.keymap.set("n", "<leader>on", function()
+        require("octopus").spawn()
+      end, {})
+      vim.keymap.set("n", "<leader>off", function()
+        require("octopus").removeLastOctopus()
+      end, {})
+      vim.keymap.set("n", "<leader>ofa", function()
+        require("octopus").removeAllOctopuses()
+      end, {})
+    end,
   },
 
   -- {
@@ -24,7 +30,7 @@ return {
       -- Only one of these is needed, not both.
       "nvim-telescope/telescope.nvim", -- optional
     },
-    config = true
+    config = true,
   },
 
   -- {
@@ -53,7 +59,7 @@ return {
     ft = { "markdown" },
   },
 
-  "mbbill/undotree",
+  -- "mbbill/undotree",
 
   -- {
   --   "folke/which-key.nvim",
@@ -69,60 +75,34 @@ return {
   --   }
   -- },
 
+  -- {
+  -- 	"nvimtools/none-ls.nvim",
+  -- 	config = function()
+  -- 		local null_ls = require("null-ls")
+  --
+  -- 		null_ls.setup({
+  -- 			sources = {
+  -- 				null_ls.builtins.formatting.eslint,
+  -- 				null_ls.builtins.diagnostics.eslint,
+  -- 			},
+  -- 		})
+  -- 	end,
+  -- },
+
   {
-    'MunifTanjim/prettier.nvim',
+    "numToStr/Comment.nvim",
     config = function()
-      local prettier = require("prettier")
-      prettier.setup({
-        bin = 'prettier', -- or `'prettierd'` (v0.23.3+)
-        filetypes = {
-          "css",
-          "html",
-          "javascript",
-          "javascriptreact",
-          "json",
-          "less",
-          "markdown",
-          "scss",
-          "typescript",
-          "typescriptreact",
-          "yaml",
-        },
-        cli_options = {
-          quotes = false,
-        },
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
       })
-    end
+    end,
   },
 
-  {
-    'jose-elias-alvarez/null-ls.nvim',
-    config = function()
-      local null_ls = require("null-ls")
-
-      null_ls.setup({
-        sources = {
-          -- null_ls.builtins.formatting.stylua,
-          null_ls.builtins.diagnostics.eslint,
-          null_ls.builtins.completion.spell,
-        },
-      })
-    end
-  },
+  "JoosepAlviste/nvim-ts-context-commentstring",
 
   {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup({
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-      })
-    end
-  },
-
-  'JoosepAlviste/nvim-ts-context-commentstring',
-
-  {
-    "nvim-tree/nvim-web-devicons", lazy = true
+    "nvim-tree/nvim-web-devicons",
+    lazy = true,
   },
 
 }

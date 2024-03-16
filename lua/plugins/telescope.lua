@@ -35,7 +35,7 @@ return {
         --     results_width = 0.5,
         --   },
         -- },
-        file_ignore_patterns = { "node_modules" },
+        -- file_ignore_patterns = { "node_modules" },
         path_display = { "truncate" },
         mappings = {
           i = {

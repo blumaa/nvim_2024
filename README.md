@@ -1,4 +1,4 @@
-# Aaron's 2024 nvim config files
+# 2024 nvim config files
 
 ### Install
 
