@@ -1,5 +1,7 @@
-vim.g.editorconfig = false
--- -- Define a function to append a space to the end of the file
+-- ensure that the project is using the local .editorconfig file
+vim.g.editorconfig = true
+
+-- Define a function to append a space to the end of the file
 function AppendSpace()
   local line_count = vim.fn.line('$')
   if line_count == 1 or vim.fn.getline(line_count) ~= '' then

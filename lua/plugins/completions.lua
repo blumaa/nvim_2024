@@ -6,10 +6,16 @@ return {
 
   {
     'L3MON4D3/LuaSnip',
+    version = "v2.*",
+    build = "make install_jsregexp",
+    dependencies = { "rafamadriz/friendly-snippets" },
     config = function()
       local luasnip = require('luasnip')
       local cmp = require('cmp')
       local lspkind = require('lspkind')
+
+      require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip").filetype_extend("javascript", { "jsdoc" })
 
       local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
@@ -35,7 +41,6 @@ return {
           { name = 'copilot' },
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
-          { name = 'crates' },
         }, {
           { name = 'buffer' },
         }),
@@ -57,7 +62,17 @@ return {
           })
         }
       }
-      require("luasnip.loaders.from_vscode").lazy_load()
+      vim.diagnostic.config({
+        update_in_insert = true,
+        float = {
+          focusable = false,
+          style = "minimal",
+          border = "rounded",
+          source = "always",
+          header = "",
+          prefix = ""
+        }
+      })
     end
 
   }
