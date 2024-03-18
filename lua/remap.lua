@@ -1,6 +1,6 @@
 vim.keymap.set('n', '<leader>q', ':nohlsearch<CR>', { noremap = true, silent = true })
 -- vim.keymap.set('n', '<leader>d', ':call v:lua.toggle_diagnostics()<CR>')
--- vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 vim.keymap.set("n", "<leader>-", ":vsplit<cr>")
 vim.keymap.set("n", "<leader>_", ":split<cr>")
 

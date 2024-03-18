@@ -59,7 +59,7 @@ return {
     ft = { "markdown" },
   },
 
-  -- "mbbill/undotree",
+  "mbbill/undotree",
 
   -- {
   --   "folke/which-key.nvim",
