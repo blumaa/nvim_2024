@@ -6,7 +6,6 @@ return {
 
   config = function()
     local builtin = require('telescope.builtin')
-    local trouble = require("trouble.providers.telescope")
 
     vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
     vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
@@ -35,16 +34,19 @@ return {
         --     results_width = 0.5,
         --   },
         -- },
-        -- file_ignore_patterns = { "node_modules" },
+        file_ignore_patterns = {
+          "node_modules",
+          "yarn.lock",
+          ".git",
+        },
         path_display = { "truncate" },
         mappings = {
           i = {
-            ["<c-t>"] = trouble.open_with_trouble,
             ["<esc>"] = actions.close,
           },
           n = {
-            ["<c-t>"] = trouble.open_with_trouble,
-            ["q"] = require("telescope.actions").close
+            ["q"] = require("telescope.actions").close,
+            ["<esc>"] = actions.close,
           },
         },
       },
