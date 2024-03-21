@@ -1,4 +1,20 @@
 return {
+
+  {
+    "blumaa/ohne-accidents",
+    config = function()
+      require("ohne-accidents").setup()
+    end
+  },
+
+  -- {
+  --   "ohne-accidents",
+  --   dir = "plugins/ohne-accidents/ohne-accidents.nvim",
+  --   config = function()
+  --     require("ohne-accidents/ohne-accidents").setup()
+  --   end
+  -- },
+
   {
     "blumaa/octopus.nvim",
     config = function()

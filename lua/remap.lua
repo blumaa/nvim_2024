@@ -70,3 +70,6 @@ vim.keymap.set("n", "<C-l>", "<C-w>l")
 -- Nvimtree
 vim.keymap.set("n", "<leader>nt", ":NvimTreeToggle<cr>")
 vim.keymap.set("n", "<leader>nf", ":NvimTreeFindFileToggle<cr>")
+
+-- NeoGit
+vim.keymap.set("n", "<leader>ng", "::Neogit kind=vsplit <cr>")
