@@ -4,6 +4,7 @@ return {
     "blumaa/ohne-accidents",
     config = function()
       require("ohne-accidents").setup()
+      vim.api.nvim_set_keymap('n', '<leader>oh', ':OhneAccidents status<CR>', {noremap = true, silent = true})
     end
   },
 
@@ -12,6 +13,8 @@ return {
   --   dir = "plugins/ohne-accidents/ohne-accidents.nvim",
   --   config = function()
   --     require("ohne-accidents/ohne-accidents").setup()
+  --
+  --     vim.api.nvim_set_keymap('n', '<leader>oh', ':OhneAccidents status<CR>', {noremap = true, silent = true})
   --   end
   -- },
 
