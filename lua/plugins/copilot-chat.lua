@@ -9,17 +9,36 @@ return {
     opts = {
       debug = true, -- Enable debugging
       mappings = {
-        close = 'q',
-        reset = '<C-r>',
-        complete = '<Tab>',
-        submit_prompt = '<CR>',
-        accept_diff = '<C-y>',
-        show_diff = 'gd',
-        show_system_prompt = 'gp',
-        show_user_selection = 'gs',
+        complete = {
+          detail = 'Use @<Tab> or /<Tab> for options.',
+          insert = '<Tab>',
+        },
+        close = {
+          normal = 'q',
+          insert = '<C-c>'
+        },
+        reset = {
+          normal = '<C-r>',
+          insert = '<C-r>'
+        },
+        submit_prompt = {
+          normal = '<CR>',
+          insert = '<C-m>'
+        },
+        accept_diff = {
+          normal = '<C-y>',
+          insert = '<C-y>'
+        },
+        show_diff = {
+          normal = 'gd'
+        },
+        show_system_prompt = {
+          normal = 'gp'
+        },
+        show_user_selection = {
+          normal = 'gs'
+        },
       },
-
-      -- See Configuration section for rest
     },
     -- See Commands section for default commands if you want to lazy load on them
   },
