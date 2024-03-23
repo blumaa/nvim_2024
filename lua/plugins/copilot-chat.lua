@@ -6,6 +6,9 @@ return {
       { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
       { "nvim-lua/plenary.nvim" },  -- for curl, log wrapper
     },
+    keys = {
+      { "<leader>cc", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle Vsplit" },
+    },
     opts = {
       debug = true, -- Enable debugging
       mappings = {
