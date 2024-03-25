@@ -6,6 +6,7 @@ return {
       require('nvim-highlight-colors').setup({})
     end
   },
+
   {
     "blumaa/ohne-accidents",
     config = function()
@@ -14,6 +15,7 @@ return {
     end
   },
 
+  -- Local development of ohne-accidents
   -- {
   --   "ohne-accidents",
   --   dir = "plugins/ohne-accidents/ohne-accidents.nvim",
@@ -38,13 +40,6 @@ return {
       end, {})
     end,
   },
-
-  -- {
-  --   "norcalli/nvim-colorizer.lua",
-  --   config = function()
-  --     require("colorizer").setup()
-  --   end
-  -- },
 
   {
     "NeogitOrg/neogit",
