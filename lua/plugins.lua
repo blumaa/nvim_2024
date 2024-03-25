@@ -1,10 +1,16 @@
 return {
 
   {
+    'brenoprata10/nvim-highlight-colors',
+    config = function()
+      require('nvim-highlight-colors').setup({})
+    end
+  },
+  {
     "blumaa/ohne-accidents",
     config = function()
       require("ohne-accidents").setup()
-      vim.api.nvim_set_keymap('n', '<leader>oh', ':OhneAccidents status<CR>', {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<leader>oh', ':OhneAccidents status<CR>', { noremap = true, silent = true })
     end
   },
 
