@@ -11,7 +11,7 @@ return {
   -- Local development of ohne-accidents
   -- {
   --   "ohne-accidents",
-  --   dir = "plugins/ohne-accidents/ohne-accidents.nvim",
+  --   dir = "plugins/ohne-accidents/ohne-accidents",
   --   config = function()
   --     require("ohne-accidents/ohne-accidents").setup({ welcomeOnStartup = false })
   --
