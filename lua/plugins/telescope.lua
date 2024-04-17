@@ -35,8 +35,8 @@ return {
         --   },
         -- },
         file_ignore_patterns = {
-          "node_modules",
-          "yarn.lock",
+          -- "node_modules",
+          -- "yarn.lock",
           ".git",
         },
         path_display = { "truncate" },
