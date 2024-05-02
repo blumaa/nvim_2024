@@ -1,6 +1,22 @@
 return {
 
   {
+    "rain",
+    dir = "plugins/rain/rain",
+    config = function()
+      require("rain/rain").setup({
+        character = ".",
+        speed = 20,
+        color = "lightblue",
+        blend = 100
+      })
+
+      vim.api.nvim_set_keymap('n', '<leader>rn', ':RainOn<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>ro', ':RainOff<CR>', { noremap = true, silent = true })
+    end
+  },
+
+  {
     "blumaa/ohne-accidents",
     config = function()
       require("ohne-accidents").setup({ welcomeOnStartup = false })
