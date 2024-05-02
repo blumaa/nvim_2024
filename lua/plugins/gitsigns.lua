@@ -11,7 +11,7 @@ return {
         untracked    = { text = '┆' },
       },
       signcolumn                   = true,  -- Toggle with `:Gitsigns toggle_signs`
-      numhl                        = false, -- Toggle with `:Gitsigns toggle_numhl`
+      numhl                        = true, -- Toggle with `:Gitsigns toggle_numhl`
       linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
       word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
       watch_gitdir                 = {
@@ -53,14 +53,14 @@ return {
         end
 
         -- Navigation
-        map('n', ']c', function()
-          if vim.wo.diff then return ']c' end
+        map('n', ']d', function()
+          if vim.wo.diff then return ']d' end
           vim.schedule(function() gs.next_hunk() end)
           return '<Ignore>'
         end, { expr = true })
 
-        map('n', '[c', function()
-          if vim.wo.diff then return '[c' end
+        map('n', '[d', function()
+          if vim.wo.diff then return '[d' end
           vim.schedule(function() gs.prev_hunk() end)
           return '<Ignore>'
         end, { expr = true })
@@ -81,7 +81,7 @@ return {
         -- map('n', '<leader>td', gs.toggle_deleted)
 
         -- Text object
-        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+        -- map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
       end
     }
   end,
