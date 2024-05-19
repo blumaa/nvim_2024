@@ -26,6 +26,8 @@ return {
     require("telescope").load_extension('harpoon')
     require('telescope').setup {
       defaults = {
+        prompt_prefix = "󰼛 ",
+        selection_caret = "󱞩 ",
         -- sorting_strategy = "ascending",
         -- layout_config = {
         --   horizontal = {
@@ -37,7 +39,7 @@ return {
         file_ignore_patterns = {
           -- "node_modules",
           -- "yarn.lock",
-          ".git",
+          -- ".git",
         },
         path_display = { "truncate" },
         mappings = {
