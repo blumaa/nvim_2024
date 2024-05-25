@@ -30,6 +30,7 @@ set.smartcase = true
 set.termguicolors = true
 set.autoindent = true
 set.smartindent = true
+set.scrolloff = 10
 set.softtabstop = 4
 set.tabstop = 2
 set.shiftwidth = 2
