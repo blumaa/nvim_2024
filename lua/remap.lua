@@ -1,4 +1,7 @@
+-- Clear search with <esc>
+-- vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 vim.keymap.set('n', '<leader>q', ':nohlsearch<CR>', { noremap = true, silent = true })
+
 -- vim.keymap.set('n', '<leader>d', ':call v:lua.toggle_diagnostics()<CR>')
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 vim.keymap.set("n", "<leader>-", ":vsplit<cr>")
@@ -26,6 +29,9 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 -- next greatest remap ever : asbjornHaland
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
+vim.keymap.set("n", "vA", "ggVG", { desc = "Select All" })
+vim.keymap.set("n", "yA", "ggVGy", { desc = "Copy All" })
+
 
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
@@ -55,11 +61,16 @@ vim.keymap.set("n", "<DOWN>", ":w<CR>")
 -- qucik exit/escape
 vim.keymap.set("i", "jk", "<ESC>")
 
+vim.keymap.set({ "n", "v", "x" }, "<S-Down>", "<cmd>resize -2<cr>", { desc = "Resize Split Down" })
+vim.keymap.set({ "n", "v", "x" }, "<S-Up>", "<cmd>resize +2<cr>", { desc = "Resize Split Up" })
+vim.keymap.set({ "n", "v", "x" }, "<S-Left>", "<cmd>vertical resize -2<cr>", { desc = "Resize Split Left" })
+vim.keymap.set({ "n", "v", "x" }, "<S-Right>", "<cmd>vertical resize +2<cr>", { desc = "Resize Split Right" })
+
 -- Resize Panes
-vim.keymap.set("n", "<leader>9", ":horizontal resize +4<CR>")
-vim.keymap.set("n", "<leader>0", ":horizontal resize -4<CR>")
-vim.keymap.set("n", "<leader>1", ":vertical resize +4<CR>")
-vim.keymap.set("n", "<leader>2", ":vertical resize -4<CR>")
+-- vim.keymap.set("n", "<leader>9", ":horizontal resize +4<CR>")
+-- vim.keymap.set("n", "<leader>0", ":horizontal resize -4<CR>")
+-- vim.keymap.set("n", "<leader>1", ":vertical resize +4<CR>")
+-- vim.keymap.set("n", "<leader>2", ":vertical resize -4<CR>")
 
 -- Better window navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h")
@@ -73,3 +84,8 @@ vim.keymap.set("n", "<leader>nf", ":NvimTreeFindFileToggle<cr>")
 
 -- NeoGit
 vim.keymap.set("n", "<leader>ng", "::Neogit kind=vsplit <cr>")
+
+-- Center screen when using <C-u> and <C-d>
+vim.keymap.set({ "n", "i", "c" }, "<C-u>", "<C-u>zz", { desc = "Scroll Up" })
+vim.keymap.set({ "n", "i", "c" }, "<C-d>", "<C-d>zz", { desc = "Scroll Down" })
+
