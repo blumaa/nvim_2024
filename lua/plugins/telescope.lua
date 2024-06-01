@@ -24,40 +24,40 @@ return {
 
     local actions = require('telescope.actions')
 
-    require('telescope.pickers.layout_strategies').horizontal_merged = function(picker, max_columns, max_lines, layout_config)
-      local layout = require('telescope.pickers.layout_strategies').horizontal(picker, max_columns, max_lines,
-        layout_config)
-
-      layout.prompt.title = ''
-      layout.prompt.borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' }
-
-      layout.results.title = ''
-      layout.results.borderchars = { '─', '│', '─', '│', '├', '┤', '┘', '└' }
-      layout.results.line = layout.results.line - 1
-      layout.results.height = layout.results.height + 1
-
-      layout.preview.title = ''
-      layout.preview.borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' }
-
-      return layout
-    end
-
+    -- require('telescope.pickers.layout_strategies').horizontal_merged = function(picker, max_columns, max_lines, layout_config)
+    --   local layout = require('telescope.pickers.layout_strategies').horizontal(picker, max_columns, max_lines,
+    --     layout_config)
+    --
+    --   layout.prompt.title = ''
+    --   layout.prompt.borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' }
+    --
+    --   layout.results.title = ''
+    --   layout.results.borderchars = { '─', '│', '─', '│', '├', '┤', '┘', '└' }
+    --   layout.results.line = layout.results.line - 1
+    --   layout.results.height = layout.results.height + 1
+    --
+    --   layout.preview.title = ''
+    --   layout.preview.borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' }
+    --
+    --   return layout
+    -- end
+    --
     require("telescope").load_extension('harpoon')
     require('telescope').setup {
       defaults = {
-        layout_strategy = 'horizontal_merged',
+        -- layout_strategy = 'horizontal_merged',
         prompt_prefix = "󰼛 ",
         selection_caret = "󱞩 ",
-        sorting_strategy = "ascending",
-        layout_config = {
-          horizontal = {
-            prompt_position = "top",
+        -- sorting_strategy = "ascending",
+        -- layout_config = {
+          -- horizontal = {
+            -- prompt_position = "top",
             -- preview_width = 0.5,
             -- results_width = 0.5,
-          },
-        },
+          -- },
+        -- },
         file_ignore_patterns = {
-          -- "node_modules",
+          "node_modules",
           -- "yarn.lock",
           -- ".git",
         },
