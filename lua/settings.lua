@@ -41,6 +41,7 @@ set.mousemoveevent = true
 set.undodir = os.getenv("HOME") .. "/.vim/undodir"
 set.undofile = true
 set.wrap = false
+set.cursorline = true
 
 
 -- LSP toggle diagnostics virtual_text

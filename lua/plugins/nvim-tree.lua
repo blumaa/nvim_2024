@@ -4,45 +4,23 @@ return {
   lazy = false,
   dependencies = {
     "nvim-tree/nvim-web-devicons",
-    'b0o/nvim-tree-preview.lua',
   },
   config = function()
-    local preview = require 'nvim-tree-preview'
-
-    local function my_on_attach(bufnr)
-      local api = require "nvim-tree.api"
-
-      local function opts(desc)
-        return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-      end
-
-      -- default mappings
-      api.config.mappings.default_on_attach(bufnr)
-
-      vim.keymap.set('n', 'P', preview.watch, opts 'Preview (Watch)')
-      vim.keymap.set('n', '<Esc>', preview.unwatch, opts 'Close Preview/Unwatch')
-
-      -- Option A: Simple tab behavior: Always preview
-      vim.keymap.set('n', '<Tab>', preview.node_under_cursor, opts 'Preview')
-
-      -- Option B: Smart tab behavior: Only preview files, expand/collapse directories.
-      vim.keymap.set('n', '<Tab>', function()
-        local ok, node = pcall(api.tree.get_node_under_cursor)
-        if ok and node then
-          if node.type == 'directory' then
-            api.node.open.edit()
-          else
-            preview.node(node, { toggle_focus = true })
-          end
-        end
-      end, opts 'Preview')
-    end
 
     require('nvim-tree').setup({
       view = {
         adaptive_size = true,
       },
-      on_attach = my_on_attach,
+      -- filters = {
+      --   dotfiles = false,
+      --   custom = {
+      --     "^.git$",
+      --     "^.sl$",
+      --     "^.DS_Store",
+      --     "^target$",
+      --     "^node_modules$",
+      --   },
+      -- },
       actions = {
         open_file = {
           quit_on_open = true,
@@ -50,39 +28,5 @@ return {
       },
     })
 
-    -- Default config:
-    preview.setup {
-      -- Keymaps for the preview window (does not apply to the tree window).
-      -- Keymaps can be a string (vimscript command), a function, or a table.
-      --
-      -- If a table, it must contain either an 'action' or 'open' key:
-      --
-      -- Actions:
-      --   { action = 'close', unwatch? = false, focus_tree? = true }
-      --   { action = 'toggle_focus' }
-      --
-      -- Open modes:
-      --   { open = 'edit' }
-      --   { open = 'tab' }
-      --   { open = 'vertical' }
-      --   { open = 'horizontal' }
-      --
-      -- To disable a default keymap, set it to false.
-      -- All keymaps are set in normal mode. Other modes are not currently supported.
-      keymaps = {
-        ['<Esc>'] = { action = 'close', unwatch = true },
-        ['<Tab>'] = { action = 'toggle_focus' },
-        ['<CR>'] = { open = 'edit' },
-        ['<C-t>'] = { open = 'tab' },
-        ['<C-v>'] = { open = 'vertical' },
-        ['<C-x>'] = { open = 'horizontal' },
-      },
-      min_width = 10,
-      min_height = 5,
-      max_width = 85,
-      max_height = 25,
-      wrap = false,       -- Whether to wrap lines in the preview window
-      border = 'rounded', -- Border style for the preview window
-    }
   end,
 }

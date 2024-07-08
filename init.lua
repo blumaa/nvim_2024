@@ -18,7 +18,11 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = 'plugins',
-  change_detection = { notify = false }
+  change_detection = { notify = false },
+  ui = {
+      border = 'rounded',
+      backdrop = 100,
+    },
 })
 
 require("remap")

@@ -12,9 +12,11 @@ return {
         padding = 0,
         margin = { horizontal = 0, vertical = 0 },
       },
+      -- render = "basic"
       render = function(props)
-        local filepath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':p')
-        local parent_folder_and_file = vim.fn.fnamemodify(filepath, ':h:t') .. '/' .. vim.fn.fnamemodify(filepath, ':t')
+        local filepath = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ':p:~:.')
+        -- local parent_folder_and_file = vim.fn.fnamemodify(filepath, ':h:t') .. '/' .. vim.fn.fnamemodify(filepath, ':t')
+        local parent_folder_and_file = filepath
         if parent_folder_and_file == '' then
           parent_folder_and_file = '[No Name]'
         end

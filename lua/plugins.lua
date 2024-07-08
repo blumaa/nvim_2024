@@ -1,5 +1,7 @@
 return {
 
+    "tpope/vim-sleuth",
+
   {
     "jdrupal-dev/css-vars.nvim",
     config = function()
