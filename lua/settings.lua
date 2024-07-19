@@ -22,8 +22,9 @@ set.showcmd = true
 set.laststatus = 0
 set.autowrite = true
 set.autoread = true
+set.cursorcolumn = true
 set.cursorline = true
-set.cursorlineopt = 'number'
+set.cursorlineopt = 'screenline'
 set.relativenumber = true
 set.ignorecase = true
 set.smartcase = true
@@ -41,7 +42,6 @@ set.mousemoveevent = true
 set.undodir = os.getenv("HOME") .. "/.vim/undodir"
 set.undofile = true
 set.wrap = false
-set.cursorline = true
 
 
 -- LSP toggle diagnostics virtual_text
