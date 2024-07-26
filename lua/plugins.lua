@@ -1,6 +1,6 @@
 return {
 
-    "tpope/vim-sleuth",
+  -- "tpope/vim-sleuth",
 
   {
     "jdrupal-dev/css-vars.nvim",
@@ -78,30 +78,26 @@ return {
 
   "mbbill/undotree",
 
-  -- {
-  --   "folke/which-key.nvim",
-  --   event = "VeryLazy",
-  --   init = function()
-  --     vim.o.timeout = true
-  --     vim.o.timeoutlen = 300
-  --   end,
-  --   opts = {
-  --     -- your configuration comes here
-  --     -- or leave it empty to use the default settings
-  --     -- refer to the configuration section below
-  --   }
-  -- },
+  {
+    "numToStr/Comment.nvim",
+    config = function()
+      require("Comment").setup({
+        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      })
+    end,
+  },
 
-  -- {
-  --   "numToStr/Comment.nvim",
-  --   config = function()
-  --     require("Comment").setup({
-  --       pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-  --     })
-  --   end,
-  -- },
-  --
-  -- "JoosepAlviste/nvim-ts-context-commentstring",
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    config = function()
+      require('ts_context_commentstring').setup {
+        enable_autocmd = false,
+        languages = {
+          typescript = '// %s',
+        },
+      }
+    end,
+  },
 
   {
     "nvim-tree/nvim-web-devicons",

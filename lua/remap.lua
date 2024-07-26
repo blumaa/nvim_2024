@@ -4,8 +4,8 @@ vim.keymap.set('n', '<leader>q', ':nohlsearch<CR>', { noremap = true, silent = t
 
 -- vim.keymap.set('n', '<leader>d', ':call v:lua.toggle_diagnostics()<CR>')
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
-vim.keymap.set("n", "<leader>-", ":vsplit<cr>")
-vim.keymap.set("n", "<leader>_", ":split<cr>")
+vim.keymap.set("n", "<leader>-", ":vsplit<cr>", { desc = "Vertical Split" })
+vim.keymap.set("n", "<leader>_", ":split<cr>", { desc = "Horizontal Split" })
 
 -- vim-test shortcuts
 -- vim.api.nvim_set_keymap('n', '<leader>T', ':TestFile -strategy=neovim<CR>', { noremap = true, silent = true })

@@ -28,10 +28,6 @@ return {
         additional_vim_regex_highlighting = { "markdown" },
 
       },
-      -- context_commentstring = {
-      --   enable = true,
-      --   enable_autocmd = false,
-      -- }
     })
   end,
 
