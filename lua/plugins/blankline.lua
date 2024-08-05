@@ -27,10 +27,10 @@ return {
     end)
 
     require("ibl").setup {
-      indent = {
-        highlight = highlight,
-        char = ".",
-      },
+      -- indent = {
+      --   highlight = highlight,
+      --   char = ".",
+      -- },
     }
     -- require("ibl").setup {}
   end
