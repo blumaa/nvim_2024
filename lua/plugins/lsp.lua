@@ -32,11 +32,35 @@ return {
         "stylelint_lsp"
       },
       handlers = {
-        function(server_name)  -- default handler (optional)
+        function(server_name) -- default handler (optional)
           -- print('setting up ' .. server_name)
+          if server_name == "tsserver" then
+						server_name = "ts_ls"
+					end
+
           require("lspconfig")[server_name].setup {
             capabilities = capabilities,
           }
+        end,
+        ["tsserver"] = function()
+          require("lspconfig").ts_ls.setup({
+            capabilities = capabilities,
+            -- root_dir = vim.loop.cwd,
+            init_options = {
+              plugins = {
+                {
+                  name = "typescript-lit-html-plugin",
+                  -- location = vim.env.NODE_LIB,
+                  location = "/Users/a.blum/.asdf/installs/nodejs/20.6.1/lib/node_modules/typescript-lit-html-plugin",
+                },
+                {
+                  name = "ts-lit-plugin",
+                  -- location = vim.env.NODE_LIB,
+                  location = "/Users/a.blum/.asdf/installs/nodejs/20.6.1/lib/node_modules/ts-lit-plugin",
+                },
+              },
+            },
+          })
         end,
         ["lua_ls"] = function()
           local lspconfig = require("lspconfig")
