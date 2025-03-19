@@ -1,3 +1,9 @@
+-- vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format({ async = true }) end, { noremap = true, silent = true })
+-- vim.keymap.set('n', '<leader>cf', function()
+--   vim.lsp.buf.format({ async = true, name = "prettierd" })
+-- end, { noremap = true, silent = true })
+
+
 -- Clear search with <esc>
 -- vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 vim.keymap.set('n', '<leader>q', ':nohlsearch<CR>', { noremap = true, silent = true })
@@ -88,4 +94,3 @@ vim.keymap.set("n", "<leader>ng", "::Neogit kind=vsplit <cr>")
 -- Center screen when using <C-u> and <C-d>
 vim.keymap.set({ "n", "i", "c" }, "<C-u>", "<C-u>zz", { desc = "Scroll Up" })
 vim.keymap.set({ "n", "i", "c" }, "<C-d>", "<C-d>zz", { desc = "Scroll Down" })
-

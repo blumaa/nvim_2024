@@ -4,7 +4,7 @@ return {
   cmd = "Copilot",
   event = "InsertEnter",
   priority = 1000,
-  lazy = false,
+  lazy = true,
   opts = {
     suggestion = { enabled = true },
     panel = { enabled = true },
