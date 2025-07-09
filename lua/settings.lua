@@ -12,7 +12,7 @@ end
 -- Create a keymap to call the function when pressing <leader>sp
 vim.api.nvim_set_keymap('n', '<leader>sp', ':lua AppendSpace()<CR>', { noremap = true, silent = true })
 
-vim.g.termguicolors = true
+-- vim.g.termguicolors = true
 -- vim.g.nofixendofline = true
 local set = vim.opt
 
@@ -28,7 +28,7 @@ set.cursorlineopt = 'screenline'
 set.relativenumber = true
 set.ignorecase = true
 set.smartcase = true
-set.termguicolors = true
+-- set.termguicolors = true
 set.autoindent = true
 set.smartindent = true
 set.scrolloff = 10

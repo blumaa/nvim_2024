@@ -3,6 +3,8 @@
 --   vim.lsp.buf.format({ async = true, name = "prettierd" })
 -- end, { noremap = true, silent = true })
 
+-- duplicate line and comment first line
+vim.keymap.set('n', 'ycc', 'yygccp', { noremap = true, silent = true })
 
 -- Clear search with <esc>
 -- vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
