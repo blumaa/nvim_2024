@@ -55,7 +55,7 @@ return {
     -- Setup vtsls for React files only
     lspconfig.vtsls.setup({
       capabilities = capabilities,
-      cmd = { "/Users/a.blum/.local/share/nvim/mason/bin/vtsls", "--stdio" },
+      cmd = { vim.fn.expand("~/.local/share/nvim/mason/bin/vtsls"), "--stdio" },
       filetypes = { 'javascriptreact', 'typescriptreact' },
       settings = {
         vtsls = {
@@ -72,6 +72,11 @@ return {
     })
     
     -- Use ts_ls for TypeScript/JavaScript and Vue files with Vue plugin
+    local function get_node_modules_path()
+      local node_path = vim.fn.system("node -e 'console.log(process.execPath)'"):gsub("%s+", "")
+      return node_path:gsub("/bin/node", "/lib/node_modules")
+    end
+    
     lspconfig.ts_ls.setup({
       capabilities = capabilities,
       filetypes = { 'typescript', 'javascript', 'vue' },
@@ -79,16 +84,16 @@ return {
         plugins = {
           {
             name = "@vue/typescript-plugin",
-            location = "/Users/a.blum/.asdf/installs/nodejs/22.0.0/lib/node_modules/@vue/typescript-plugin",
+            location = get_node_modules_path() .. "/@vue/typescript-plugin",
             languages = { "vue" },
           },
           {
             name = "typescript-lit-html-plugin",
-            location = "/Users/a.blum/.asdf/installs/nodejs/20.6.1/lib/node_modules/typescript-lit-html-plugin",
+            location = get_node_modules_path() .. "/typescript-lit-html-plugin",
           },
           {
             name = "ts-lit-plugin",
-            location = "/Users/a.blum/.asdf/installs/nodejs/20.6.1/lib/node_modules/ts-lit-plugin",
+            location = get_node_modules_path() .. "/ts-lit-plugin",
           },
         },
       },
