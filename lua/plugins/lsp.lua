@@ -2,7 +2,6 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
     "j-hui/fidget.nvim",
     'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
     'hrsh7th/cmp-buffer',   -- LSP source for nvim-cmp
@@ -11,121 +10,103 @@ return {
     'hrsh7th/nvim-cmp',     -- Autocompletion plugin
   },
   config = function()
-    local cmp_lsp = require("cmp_nvim_lsp")
-    local capabilities = vim.tbl_deep_extend(
-      "force",
-      {},
-      vim.lsp.protocol.make_client_capabilities(),
-      cmp_lsp.default_capabilities()
-    )
-    require('mason').setup({})
-    require("mason-lspconfig").setup {
-      ensure_installed = {
-        "lua_ls",
-        "jsonls",
-        "cssls",
-        "html",
-        "yamlls",
-        "dockerls",
-        "eslint",
-        "stylelint_lsp",
-        "vuels"
-      },
-      handlers = {
-        function(server_name) -- default handler (optional)
-          -- print('setting up ' .. server_name)
-          --      if server_name == "tsserver" then
-          -- 	server_name = "ts_ls"
-          -- end
+    require("mason").setup({})
 
-          require("lspconfig")[server_name].setup {
-            capabilities = capabilities,
-          }
-        end,
-        ["ts_ls"] = function()
-          require("lspconfig").ts_ls.setup({
-            capabilities = capabilities,
-            -- root_dir = vim.loop.cwd,
-            init_options = {
-              plugins = {
-                {
-                  name = "typescript-lit-html-plugin",
-                  -- location = vim.env.NODE_LIB,
-                  location = "/Users/a.blum/.asdf/installs/nodejs/20.6.1/lib/node_modules/typescript-lit-html-plugin",
-                },
-                {
-                  name = "ts-lit-plugin",
-                  -- location = vim.env.NODE_LIB,
-                  location = "/Users/a.blum/.asdf/installs/nodejs/20.6.1/lib/node_modules/ts-lit-plugin",
-                },
-              },
-            },
-          })
-        end,
-        ["lua_ls"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.lua_ls.setup {
-          }
-          lspconfig.lua_ls.setup {
-            on_init = function(client)
-              if client.workspace_folders then
-                local path = client.workspace_folders[1].name
-                if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
-                  return
-                end
-              end
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    local lspconfig = require("lspconfig")
+    
+    -- Set up the essential LSP keybindings that aren't default
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Show hover info' })
+    -- grn, gra, grr, gri are already mapped by default
 
-              client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-                runtime = {
-                  -- Tell the language server which version of Lua you're using
-                  -- (most likely LuaJIT in the case of Neovim)
-                  version = 'LuaJIT'
-                },
-                -- Make the server aware of Neovim runtime files
-                workspace = {
-                  checkThirdParty = false,
-                  library = {
-                    vim.env.VIMRUNTIME
-                    -- Depending on the usage, you might want to add additional paths here.
-                    -- "${3rd}/luv/library"
-                    -- "${3rd}/busted/library",
-                  }
-                  -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-                  -- library = vim.api.nvim_get_runtime_file("", true)
-                }
-              })
-            end,
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                diagnostics = {
-                  globals = { "vim" }
-                }
-              }
+    -- Setup servers with custom configurations
+    lspconfig.lua_ls.setup({
+      capabilities = capabilities,
+      on_init = function(client)
+        if client.workspace_folders then
+          local path = client.workspace_folders[1].name
+          if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+            return
+          end
+        end
+
+        client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+          runtime = {
+            version = 'LuaJIT'
+          },
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              vim.env.VIMRUNTIME
             }
           }
-        end,
-        -- ["stylelint_lsp"] = function()
-        --   require("lspconfig").stylelint_lsp.setup {
-        --     capabilities = capabilities,
-        --     filetypes = { "css", "scss", "less" },
-        --     settings = {
-        --       stylelintplus = {
-        --         autoFixOnSave = false,
-        --         autoFixOnFormat = false,
-        --         configFile = ".stylelintrc.json" -- Adjust this path if needed
-        --       }
-        --     }
-        --   }
-        -- end,
-        -- ["prettier"] = function()
-        --   require("lspconfig").prettierd.setup {
-        --     capabilities = capabilities,
-        --     filetypes = { "css", "scss", "less", "javascript", "typescript", "json" },
-        --   }
-        -- end,
+        })
+      end,
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" }
+          }
+        }
       }
-    }
+    })
+
+    -- Setup vtsls for React files only
+    lspconfig.vtsls.setup({
+      capabilities = capabilities,
+      cmd = { vim.fn.expand("~/.local/share/nvim/mason/bin/vtsls"), "--stdio" },
+      filetypes = { 'javascriptreact', 'typescriptreact' },
+      settings = {
+        vtsls = {
+          enableMoveToFileCodeAction = true,
+          autoUseWorkspaceTsdk = true,
+        },
+        typescript = {
+          preferences = {
+            includePackageJsonAutoImports = "on",
+          },
+          tsdk = "./node_modules/typescript/lib",
+        },
+      },
+    })
+    
+    -- Use ts_ls for TypeScript/JavaScript and Vue files with Vue plugin
+    local function get_node_modules_path()
+      local node_path = vim.fn.system("node -e 'console.log(process.execPath)'"):gsub("%s+", "")
+      return node_path:gsub("/bin/node", "/lib/node_modules")
+    end
+    
+    lspconfig.ts_ls.setup({
+      capabilities = capabilities,
+      filetypes = { 'typescript', 'javascript', 'vue' },
+      init_options = {
+        plugins = {
+          {
+            name = "@vue/typescript-plugin",
+            location = get_node_modules_path() .. "/@vue/typescript-plugin",
+            languages = { "vue" },
+          },
+          {
+            name = "typescript-lit-html-plugin",
+            location = get_node_modules_path() .. "/typescript-lit-html-plugin",
+          },
+          {
+            name = "ts-lit-plugin",
+            location = get_node_modules_path() .. "/ts-lit-plugin",
+          },
+        },
+      },
+    })
+
+    -- Setup other servers manually
+    local servers = { "eslint", "cssls", "html", "jsonls", "yamlls", "dockerls", "stylelint_lsp" }
+    for _, server in ipairs(servers) do
+      lspconfig[server].setup({
+        capabilities = capabilities,
+      })
+    end
+
     require("fidget").setup({})
   end
 }
