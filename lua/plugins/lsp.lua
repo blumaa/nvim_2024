@@ -1,14 +1,28 @@
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
+    { "williamboman/mason.nvim", opts = {} },
+    { "williamboman/mason-lspconfig.nvim", opts = {
+        ensure_installed = {
+          "lua_ls",
+          "jsonls",
+          "cssls",
+          "html",
+          "yamlls",
+          "dockerls",
+          "eslint",
+          "stylelint_lsp",
+          "vuels",
+          "vtsls"
+        },
+      }
+    },
     "j-hui/fidget.nvim",
-    'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
-    'hrsh7th/cmp-buffer',   -- LSP source for nvim-cmp
-    'hrsh7th/cmp-path',     -- LSP source for nvim-cmp
-    'hrsh7th/cmp-cmdline',  -- LSP source for nvim-cmp
-    'hrsh7th/nvim-cmp',     -- Autocompletion plugin
+    'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/nvim-cmp',
   },
   config = function()
     local cmp_lsp = require("cmp_nvim_lsp")
@@ -18,133 +32,97 @@ return {
       vim.lsp.protocol.make_client_capabilities(),
       cmp_lsp.default_capabilities()
     )
-    require('mason').setup({})
-    require("mason-lspconfig").setup {
-      ensure_installed = {
-        "lua_ls",
-        "jsonls",
-        "cssls",
-        "html",
-        "yamlls",
-        "dockerls",
-        "stylelint_lsp",
-        "vuels",
-        "ts_ls"
-      },
-      handlers = {
-        function(server_name) -- default handler (optional)
-          -- Skip servers that have custom handlers below
-          if server_name == "ts_ls" or server_name == "lua_ls" or server_name == "eslint" then
+
+    -- Function to find dynamic plugin paths
+    local function find_node_module_path(plugin_name)
+      local paths = {
+        vim.fn.expand("~/.asdf/installs/nodejs/*/lib/node_modules/" .. plugin_name),
+        vim.fn.expand("~/.nvm/versions/node/*/lib/node_modules/" .. plugin_name),
+        vim.fn.expand("/usr/local/lib/node_modules/" .. plugin_name),
+        vim.fn.expand("/opt/homebrew/lib/node_modules/" .. plugin_name),
+      }
+
+      for _, path in ipairs(paths) do
+        local expanded = vim.fn.glob(path)
+        if expanded ~= "" and vim.fn.isdirectory(expanded) == 1 then
+          return expanded
+        end
+      end
+      return nil
+    end
+
+    -- Configure lua_ls with vim.lsp.config (new API)
+    vim.lsp.config('lua_ls', {
+      capabilities = capabilities,
+      on_init = function(client)
+        if client.workspace_folders then
+          local path = client.workspace_folders[1].name
+          if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
             return
           end
-          
-          require("lspconfig")[server_name].setup {
-            capabilities = capabilities,
-          }
-        end,
-        ["ts_ls"] = function()
-          require("lspconfig").ts_ls.setup({
-            capabilities = capabilities,
-            filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-            init_options = {
-              plugins = {
-                {
-                  name = "typescript-lit-html-plugin",
-                  -- location = vim.env.NODE_LIB,
-                  location = "/Users/a.blum/.asdf/installs/nodejs/20.6.1/lib/node_modules/typescript-lit-html-plugin",
-                },
-                {
-                  name = "ts-lit-plugin",
-                  -- location = vim.env.NODE_LIB,
-                  location = "/Users/a.blum/.asdf/installs/nodejs/20.6.1/lib/node_modules/ts-lit-plugin",
-                },
-              },
-            },
-          })
-        end,
-        ["lua_ls"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.lua_ls.setup {
-            on_init = function(client)
-              if client.workspace_folders then
-                local path = client.workspace_folders[1].name
-                if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
-                  return
-                end
-              end
+        end
 
-              client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-                runtime = {
-                  -- Tell the language server which version of Lua you're using
-                  -- (most likely LuaJIT in the case of Neovim)
-                  version = 'LuaJIT'
-                },
-                -- Make the server aware of Neovim runtime files
-                workspace = {
-                  checkThirdParty = false,
-                  library = {
-                    vim.env.VIMRUNTIME
-                    -- Depending on the usage, you might want to add additional paths here.
-                    -- "${3rd}/luv/library"
-                    -- "${3rd}/busted/library",
-                  }
-                  -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-                  -- library = vim.api.nvim_get_runtime_file("", true)
-                }
-              })
-            end,
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                diagnostics = {
-                  globals = { "vim" }
-                }
-              }
+        client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+          runtime = {
+            version = 'LuaJIT'
+          },
+          workspace = {
+            checkThirdParty = false,
+            library = {
+              vim.env.VIMRUNTIME
             }
           }
-        end,
-        -- ["stylelint_lsp"] = function()
-        --   require("lspconfig").stylelint_lsp.setup {
-        --     capabilities = capabilities,
-        --     filetypes = { "css", "scss", "less" },
-        --     settings = {
-        --       stylelintplus = {
-        --         autoFixOnSave = false,
-        --         autoFixOnFormat = false,
-        --         configFile = ".stylelintrc.json" -- Adjust this path if needed
-        --       }
-        --     }
-        --   }
-        -- end,
-        -- ["prettier"] = function()
-        --   require("lspconfig").prettierd.setup {
-        --     capabilities = capabilities,
-        --     filetypes = { "css", "scss", "less", "javascript", "typescript", "json" },
-        --   }
-        -- end,
-        ["eslint"] = function()
-          -- Only setup ESLint if config file exists
-          local eslint_config_files = {
-            ".eslintrc.js", ".eslintrc.cjs", ".eslintrc.yaml", ".eslintrc.yml", 
-            ".eslintrc.json", "eslint.config.js", "eslint.config.mjs"
+        })
+      end,
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" }
           }
-          
-          local has_config = false
-          for _, config_file in ipairs(eslint_config_files) do
-            if vim.fn.filereadable(config_file) == 1 then
-              has_config = true
-              break
-            end
-          end
-          
-          if has_config then
-            require("lspconfig").eslint.setup({
-              capabilities = capabilities,
-            })
-          end
-        end,
+        }
       }
-    }
+    })
+
+    -- Configure ts_ls with dynamic plugin detection
+    local plugins = {}
+
+    local lit_html_path = find_node_module_path("typescript-lit-html-plugin")
+    if lit_html_path then
+      table.insert(plugins, {
+        name = "typescript-lit-html-plugin",
+        location = lit_html_path,
+      })
+    end
+
+    local ts_lit_path = find_node_module_path("ts-lit-plugin")
+    if ts_lit_path then
+      table.insert(plugins, {
+        name = "ts-lit-plugin",
+        location = ts_lit_path,
+      })
+    end
+
+    vim.lsp.config('vtsls', {
+      capabilities = capabilities,
+      settings = {
+        vtsls = {
+          tsserver = {
+            globalPlugins = plugins,
+          },
+        },
+      },
+    })
+
+    -- Configure other LSP servers with default settings
+    local default_servers = { "jsonls", "cssls", "html", "yamlls", "dockerls", "eslint", "stylelint_lsp", "vuels" }
+    for _, server in ipairs(default_servers) do
+      vim.lsp.config(server, {
+        capabilities = capabilities,
+      })
+    end
+
     require("fidget").setup({})
+
+    vim.api.nvim_set_hl(0, "VioletBorder", { fg = "#FFFFFF", bold = true })
   end
 }

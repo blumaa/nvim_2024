@@ -7,4 +7,3 @@
 - Open any folder or file in nvim
 - You should see the Lazy installer popup window installing all the packages
 - If you don't, try to run `:Lazy` (if that doesn't work, something wasn't installed correctly)
-
