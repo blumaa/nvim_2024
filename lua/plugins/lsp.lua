@@ -27,17 +27,17 @@ return {
         "html",
         "yamlls",
         "dockerls",
-        "eslint",
         "stylelint_lsp",
-        "vuels"
+        "vuels",
+        "ts_ls"
       },
       handlers = {
         function(server_name) -- default handler (optional)
-          -- print('setting up ' .. server_name)
-          --      if server_name == "tsserver" then
-          -- 	server_name = "ts_ls"
-          -- end
-
+          -- Skip servers that have custom handlers below
+          if server_name == "ts_ls" or server_name == "lua_ls" or server_name == "eslint" then
+            return
+          end
+          
           require("lspconfig")[server_name].setup {
             capabilities = capabilities,
           }
@@ -45,7 +45,7 @@ return {
         ["ts_ls"] = function()
           require("lspconfig").ts_ls.setup({
             capabilities = capabilities,
-            -- root_dir = vim.loop.cwd,
+            filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
             init_options = {
               plugins = {
                 {
@@ -64,8 +64,6 @@ return {
         end,
         ["lua_ls"] = function()
           local lspconfig = require("lspconfig")
-          lspconfig.lua_ls.setup {
-          }
           lspconfig.lua_ls.setup {
             on_init = function(client)
               if client.workspace_folders then
@@ -124,6 +122,27 @@ return {
         --     filetypes = { "css", "scss", "less", "javascript", "typescript", "json" },
         --   }
         -- end,
+        ["eslint"] = function()
+          -- Only setup ESLint if config file exists
+          local eslint_config_files = {
+            ".eslintrc.js", ".eslintrc.cjs", ".eslintrc.yaml", ".eslintrc.yml", 
+            ".eslintrc.json", "eslint.config.js", "eslint.config.mjs"
+          }
+          
+          local has_config = false
+          for _, config_file in ipairs(eslint_config_files) do
+            if vim.fn.filereadable(config_file) == 1 then
+              has_config = true
+              break
+            end
+          end
+          
+          if has_config then
+            require("lspconfig").eslint.setup({
+              capabilities = capabilities,
+            })
+          end
+        end,
       }
     }
     require("fidget").setup({})
