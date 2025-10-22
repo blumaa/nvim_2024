@@ -18,11 +18,7 @@ return {
       }
     },
     "j-hui/fidget.nvim",
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    'hrsh7th/nvim-cmp',
+    'hrsh7th/cmp-nvim-lsp',  -- Needed for capabilities setup
   },
   config = function()
     local cmp_lsp = require("cmp_nvim_lsp")
@@ -113,8 +109,27 @@ return {
       },
     })
 
+    -- Configure ESLint conditionally (only when config exists)
+    vim.lsp.config('eslint', {
+      capabilities = capabilities,
+      root_dir = function(fname)
+        local util = require('lspconfig.util')
+        return util.root_pattern(
+          '.eslintrc',
+          '.eslintrc.js',
+          '.eslintrc.cjs',
+          '.eslintrc.yaml',
+          '.eslintrc.yml',
+          '.eslintrc.json',
+          'eslint.config.js',
+          'eslint.config.mjs',
+          'eslint.config.cjs'
+        )(fname)
+      end,
+    })
+
     -- Configure other LSP servers with default settings
-    local default_servers = { "jsonls", "cssls", "html", "yamlls", "dockerls", "eslint", "stylelint_lsp", "vuels" }
+    local default_servers = { "jsonls", "cssls", "html", "yamlls", "dockerls", "stylelint_lsp", "vuels" }
     for _, server in ipairs(default_servers) do
       vim.lsp.config(server, {
         capabilities = capabilities,

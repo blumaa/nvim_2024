@@ -50,7 +50,7 @@ return {
         cvs = false,
         ["."] = false,
       },
-      copilot_node_command = 'node', -- Node.js version must be > 18.x
+      copilot_node_command = vim.fn.expand('~/.asdf/installs/nodejs/22.20.0/bin/node'), -- Node.js version must be > 18.x
       server_opts_overrides = {},
 
     })
