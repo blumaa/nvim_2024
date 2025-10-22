@@ -50,7 +50,9 @@ return {
         cvs = false,
         ["."] = false,
       },
-      copilot_node_command = vim.fn.expand('~/.asdf/installs/nodejs/22.20.0/bin/node'), -- Node.js version must be > 18.x
+      -- GitHub Copilot requires Node.js >= 22.2.0
+      -- Update this path when changing Node.js versions
+      copilot_node_command = vim.fn.expand('~/.asdf/installs/nodejs/22.20.0/bin/node'),
       server_opts_overrides = {},
 
     })

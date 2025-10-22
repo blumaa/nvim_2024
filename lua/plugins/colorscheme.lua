@@ -1,8 +1,3 @@
-function ColorMyPencils()
-  vim.api.nvim_set_hl(0, "Normal", { bg = "#1f1e24" })
-  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1f1e24" })
-end
-
 return {
   {
     "rose-pine/neovim",
@@ -81,7 +76,7 @@ return {
       -- })
 
       vim.cmd("colorscheme rose-pine")
-      ColorMyPencils()
+      _G.ColorMyPencils()
     end,
   },
 

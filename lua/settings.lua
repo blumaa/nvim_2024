@@ -44,6 +44,25 @@ set.undofile = true
 set.wrap = false
 
 
+-- Color scheme utility function
+function _G.ColorMyPencils()
+  vim.api.nvim_set_hl(0, "Normal", { bg = "#1f1e24" })
+  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1f1e24" })
+end
+
+-- LSP Diagnostic Configuration
+vim.diagnostic.config({
+  update_in_insert = true,
+  float = {
+    focusable = false,
+    style = "minimal",
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = ""
+  }
+})
+
 -- LSP toggle diagnostics virtual_text
 vim.g.diagnostics_visible = true
 
